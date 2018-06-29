@@ -50,7 +50,7 @@ source("https://raw.githubusercontent.com/LucasPuente/geocoding/master/modified_
 
 # Generate specific geocode function:
 geocode_apply<-function(x){
-  geocode(x, source = "google", output = "all", api_key="AIzaSyBIKAgfMKLXZMnaY93cSRuMHDi4YjDKfe4")
+  geocode(x, source = "google", output = "all", api_key=" ")
 }
 #Apply this new function to entire list:
 geocode_results<-sapply(location, geocode_apply, simplify = F)
