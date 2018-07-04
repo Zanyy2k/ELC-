@@ -37,7 +37,7 @@ preprocess =  function(df) {
   return (df); 
 }
 
-JMLFollower <- read.csv("C:/Users/zyu/Desktop/Twitter/JMLFollower.csv", encoding="UTF-8",na.strings = c("", "NA"))
+JMLFollower <- read.csv("C:/Users/zyu/Desktop/SocialMedia_Analysis/JMLFollower.csv", encoding="UTF-8",na.strings = c("", "NA"))
 JMLocation <- as.matrix(JMLFollower$Location)
 JMLocation1 = preprocess(JMLocation)
 location <- as.character(JMLocation1$df)
@@ -50,7 +50,7 @@ source("https://raw.githubusercontent.com/LucasPuente/geocoding/master/modified_
 
 # Generate specific geocode function:
 geocode_apply<-function(x){
-  geocode(x, source = "google", output = "all", api_key=" ")
+  geocode(x, source = "google", output = "all", api_key="AIzaSyBIKAgfMKLXZMnaY93cSRuMHDi4YjDKfe4")
 }
 #Apply this new function to entire list:
 geocode_results<-sapply(location, geocode_apply, simplify = F)
@@ -82,18 +82,14 @@ results_d<-lapply(results_c,function(x) data.frame(Location=x[1,"results.formatt
 results_e<-rbindlist(results_d)
 #Add info on the original (i.e. user-provided) location string:
 results_f<-results_e[,Original_Location:=names(results_d)]
-#Only keep American results:
-american_results<-subset(results_f,
-                         grepl(", USA", results_f$Location)==TRUE)
-head(american_results,5)
 #Remove entries that are too vague:
-american_results$commas<-sapply(american_results$Location, function(x)
+results_f$commas<-sapply(results_f$Location, function(x)
   length(as.numeric(gregexpr(",", as.character(x))[[1]])))
-american_results<-subset(american_results, commas==2)
+results_w<-subset(results_f, commas==2)
 #Drop the "commas" column:
-american_results<-subset(american_results, select=-commas)
+results_w<-subset(results_w, select=-commas)
 #Examine number of successes:
-nrow(american_results)
+nrow(results_w)
 #######
 # Step 6: Map the Geocoded Results
 #######
@@ -107,7 +103,7 @@ ipak <- function(pkg){
 packages <- c("maps", "mapproj", "splancs")
 ipak(packages)
 #Generate a blank map:
-albers_proj<-map("state", proj="albers", param=c(39, 45), col="#999999", fill=FALSE, bg=NA, lwd=0.2, add=FALSE, resolution=1)
+zd_proj<-map("world", proj="albers", param=c(39, 45), col="#999999", fill=FALSE, bg=NA, lwd=0.2, add=FALSE, resolution=1)
 #Add points to it:
 points(mapproject(american_results$lng, american_results$lat), col=NA, bg="#00000030", pch=21, cex=1.0)
 #Add a title:
