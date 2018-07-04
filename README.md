@@ -1,4 +1,4 @@
-# ELC-Twitter Analysis 
+# Twitter Analysis 
 
 In this folder I shown step by step codes in how to perform analysis on Twitter data
 1. Scrapping Twitter follower's Data - used python in this example and saved into csv file
