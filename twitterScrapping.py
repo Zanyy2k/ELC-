@@ -31,8 +31,9 @@ def limit_handled(cursor):
         except StopIteration:
             break
 
-# Open a new csv file with title row            
-f = csv.writer(open('followers_JML.csv', 'wb'))
+# Open a new csv file with title row     
+twitter_file = open("followers_JML.csv", 'w', newline='', encoding="utf-8")
+f=csv.writer(twitter_file)
 f.writerow(["ScreenName", "Name", "Location","Followers"])
 
 # followers = tweepy.Cursor(api.followers,id="JoMaloneLondon").items()
@@ -45,5 +46,5 @@ for follower in limit_handled(tweepy.Cursor(api.followers, id="JoMaloneLondon").
         fcounts = follower.followers_count
         print(screenName,name,location,fcounts) 
         f.writerow([screenName,name,location,fcounts])
-f.close()    
+twitter_file.close()    
 
